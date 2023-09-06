@@ -59,24 +59,33 @@ class _Chat_ScreenState extends State<Chat_Screen> {
                             reverse: true,
                             itemCount: data.length,
                             itemBuilder: (context, index) {
-                              return Row(
-                                mainAxisAlignment: (data[index]['sentby'] ==
-                                        Auth_Helper.auth_helper.firebaseAuth
-                                            .currentUser?.uid)
-                                    ? MainAxisAlignment.end
-                                    : MainAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Chip(
-                                          label: Text("${data[index]['msg']}")),
-                                      Text(
-                                        "${data[index]['timestamp'].toDate().toString().split(" ")[1].split(":")[0]}"
-                                        ":${data[index]['timestamp'].toDate().toString().split(" ")[1].split(":")[1]}",
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                              return GestureDetector(
+                                onTap: () {
+                                  FireStore_Helper.fireStore_Helper.DeleteChat(
+                                      uid: data[index].id,
+                                      uid1: data[index]['sentby'],
+                                      uid2: data[index]['receivedby']);
+                                },
+                                child: Row(
+                                  mainAxisAlignment: (data[index]['sentby'] ==
+                                          Auth_Helper.auth_helper.firebaseAuth
+                                              .currentUser?.uid)
+                                      ? MainAxisAlignment.end
+                                      : MainAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Chip(
+                                            label:
+                                                Text("${data[index]['msg']}")),
+                                        Text(
+                                          "${data[index]['timestamp'].toDate().toString().split(" ")[1].split(":")[0]}"
+                                          ":${data[index]['timestamp'].toDate().toString().split(" ")[1].split(":")[1]}",
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               );
                             },
                           );

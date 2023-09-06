@@ -146,4 +146,15 @@ class FireStore_Helper {
           .snapshots();
     }
   }
+
+  //TODO:Delete Chat From Cloud_Firestore
+  Future<void> DeleteChat(
+      {required String uid, required String uid1, required String uid2}) async {
+    await firestore
+        .collection("chat")
+        .doc("${uid1}_${uid2}")
+        .collection("messages")
+        .doc(uid)
+        .delete();
+  }
 }
