@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:chat_app_af_12/Components/Helpers/firebase_auth_helper.dart';
 import 'package:chat_app_af_12/Components/Helpers/firebase_cloud_firestore_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +31,7 @@ class _Chat_ScreenState extends State<Chat_Screen> {
         ModalRoute.of(context)!.settings.arguments as List<String>;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chat Screen"),
+        title: Text("${data[2].split("@")[0]}"),
         centerTitle: true,
       ),
       body: Column(
@@ -48,12 +51,35 @@ class _Chat_ScreenState extends State<Chat_Screen> {
                     List<QueryDocumentSnapshot<Map<String, dynamic>>>? data =
                         snapshot_data?.docs;
 
-                    return ListView.builder(
-                      itemCount: data!.length,
-                      itemBuilder: (context, index) {
-                        return Chip(label: Text("${data[index]['msg']}"));
-                      },
-                    );
+                    return (data!.isEmpty)
+                        ? Center(
+                            child: Text("No Message Yet"),
+                          )
+                        : ListView.builder(
+                            reverse: true,
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                mainAxisAlignment: (data[index]['sentby'] ==
+                                        Auth_Helper.auth_helper.firebaseAuth
+                                            .currentUser?.uid)
+                                    ? MainAxisAlignment.end
+                                    : MainAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Chip(
+                                          label: Text("${data[index]['msg']}")),
+                                      Text(
+                                        "${data[index]['timestamp'].toDate().toString().split(" ")[1].split(":")[0]}"
+                                        ":${data[index]['timestamp'].toDate().toString().split(" ")[1].split(":")[1]}",
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                   }
                   return Center(
                     child: CircularProgressIndicator(),

@@ -109,7 +109,8 @@ class _Home_ScreenState extends State<Home_Screen> {
                               arguments: <String>[
                                 Auth_Helper
                                     .auth_helper.firebaseAuth.currentUser!.uid,
-                                data[i]['uid']
+                                data[i]['uid'],
+                                data[i]['email']
                               ]);
                           all_stream_messages = await FireStore_Helper
                               .fireStore_Helper

@@ -4,14 +4,17 @@ import 'package:chat_app_af_12/Components/Helpers/firebase_auth_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireStore_Helper {
-  //todo:Create Private Constructor
+  //TODO: Private Constructor
   FireStore_Helper._();
-
+  //TODO: Singleton Object
   static final FireStore_Helper fireStore_Helper = FireStore_Helper._();
-
+  //TODO: Cloud_firestore instance
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  //TODO:Coolection Created
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
+  //TODO:Add User to Firebase Cloud_Firestore
   Future<void> addUser({required Map<String, dynamic> data}) async {
     // return users.add(data);
     await firestore
@@ -20,6 +23,7 @@ class FireStore_Helper {
         .set(data);
   }
 
+  //TODO:Display User to UI from Cloud_Firestore
   Stream<QuerySnapshot<Map<String, dynamic>>> fetchUsers() {
     return firestore
         .collection("users")
@@ -28,11 +32,12 @@ class FireStore_Helper {
         .snapshots();
   }
 
+  //TODO:Delete User From Cloud_Firestore
   Future<void> deleteUser({required String uid}) async {
     await firestore.collection("users").doc(uid).delete();
   }
 
-  //todo:Send Message
+  //TODO:Send Message
   Future<void> sendMessage({
     required String uid1,
     required String uid2,
@@ -40,13 +45,18 @@ class FireStore_Helper {
   }) async {
     String user1 = uid1;
     String user2 = uid2;
+
+    //TODO:Check If User Already Exist or not
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await firestore.collection("chat").get();
     List<QueryDocumentSnapshot<Map<String, dynamic>>> allDocs =
         await querySnapshot.docs;
+
     bool isChatRoomAvailable = false;
     String fetcheduser1 = "";
     String fetcheduser2 = "";
+
+    //TODO:Check ChatRoom Already Available or Not
     for (QueryDocumentSnapshot<Map<String, dynamic>> element in allDocs) {
       String u1 = element.id.split("_")[0];
       String u2 = element.id.split("_")[1];
@@ -57,6 +67,8 @@ class FireStore_Helper {
         fetcheduser2 = element.data()["users"][1];
       }
     }
+
+    //TODO:What if ChatRoom is Not Available
     if (isChatRoomAvailable == false) {
       log("==============Chat Room is Not Available==============");
       await firestore.collection("chat").doc("${uid1}_${uid2}").set({
@@ -73,6 +85,7 @@ class FireStore_Helper {
         "msg": msg,
       });
     } else {
+      //TODO:What if ChatRoom is Available
       log("==============Chat Room is Available==============");
       await firestore
           .collection("chat")
@@ -81,11 +94,12 @@ class FireStore_Helper {
           .add({
         "sentby": uid1,
         "receivedby": uid2,
+        "timestamp": FieldValue.serverTimestamp(),
         "msg": msg,
       });
     }
   }
-//todo:Display Message
+//TODO:Display Message
 
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>> DisplayMessage({
     required String uid1,
@@ -120,6 +134,7 @@ class FireStore_Helper {
           .collection("chat")
           .doc("${uid1}_${uid2}")
           .collection("messages")
+          .orderBy('timestamp', descending: true)
           .snapshots();
     } else {
       log("==============Chat Room is Available==============");
@@ -127,7 +142,7 @@ class FireStore_Helper {
           .collection("chat")
           .doc("${fetcheduser1}_${fetcheduser2}")
           .collection("messages")
-          .orderBy('msg', descending: true)
+          .orderBy('timestamp', descending: true)
           .snapshots();
     }
   }
