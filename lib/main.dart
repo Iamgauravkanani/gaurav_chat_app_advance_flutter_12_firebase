@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'Screens/home_screen.dart';
 import 'Screens/login_screen.dart';
 import 'Screens/login_screen_custom.dart';
+import 'Screens/notification_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,7 +18,7 @@ void main() async {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
       routes: {
-        '/': (context) => Login_Screen(),
+        '/': (context) => Notification_Screen(),
         'home': (context) => Home_Screen(),
         'chat': (context) => Chat_Screen(),
       },

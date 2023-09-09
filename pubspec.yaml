@@ -42,6 +42,7 @@ dependencies:
   google_sign_in:
   cloud_firestore:
   searchbar_animation: ^0.0.4
+  flutter_local_notifications: ^15.1.1
 
 dev_dependencies:
   flutter_test:
