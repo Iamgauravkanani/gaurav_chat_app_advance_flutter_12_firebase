@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/material.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -66,5 +67,42 @@ class Notification_Helper {
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         payload: "Ha ha bhai chale chw maja karo .....");
+  }
+
+  Future<void> bigPictureNotification() async {
+    var bigPictureStyleInformation = BigPictureStyleInformation(
+      DrawableResourceAndroidBitmap("mipmap/ic_launcher"),
+      largeIcon: DrawableResourceAndroidBitmap("mipmap/ic_launcher"),
+      contentTitle: 'Flutter Chat App',
+      summaryText: 'New Content Alert.......',
+    );
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'big text channel id', 'big text channel name',
+        channelDescription: 'big text channel description',
+        styleInformation: bigPictureStyleInformation);
+    var platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Flutter App',
+      'Message From Mine',
+      platformChannelSpecifics,
+    );
+  }
+
+  Future<void> mediaStyleNotification() async {
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+      'media channel id',
+      'media channel name',
+      channelDescription: 'media channel description',
+      color: Colors.yellow,
+      enableLights: true,
+      largeIcon: DrawableResourceAndroidBitmap("mipmap/ic_launcher"),
+      styleInformation: MediaStyleInformation(),
+    );
+    var platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(0, 'Flutter Chat App',
+        'Its the Demo of MediaStyle Notification', platformChannelSpecifics);
   }
 }
