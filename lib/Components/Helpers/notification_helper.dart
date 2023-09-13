@@ -15,8 +15,8 @@ class Notification_Helper {
 
   void initNotification() {
     var initializationSettingsAndroid =
-        AndroidInitializationSettings('mipmap/ic_launcher');
-    var initializationSettingsIOs = DarwinInitializationSettings();
+        const AndroidInitializationSettings('mipmap/ic_launcher');
+    var initializationSettingsIOs = const DarwinInitializationSettings();
     var initSetttings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOs);
 
@@ -54,7 +54,7 @@ class Notification_Helper {
       icon: 'mipmap/ic_launcher',
       largeIcon: DrawableResourceAndroidBitmap('mipmap/ic_launcher'),
     );
-    var iOSPlatformChannelSpecifics = DarwinNotificationDetails();
+    var iOSPlatformChannelSpecifics = const DarwinNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
@@ -70,7 +70,7 @@ class Notification_Helper {
   }
 
   Future<void> bigPictureNotification() async {
-    var bigPictureStyleInformation = BigPictureStyleInformation(
+    var bigPictureStyleInformation = const BigPictureStyleInformation(
       DrawableResourceAndroidBitmap("mipmap/ic_launcher"),
       largeIcon: DrawableResourceAndroidBitmap("mipmap/ic_launcher"),
       contentTitle: 'Flutter Chat App',
