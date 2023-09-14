@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:chat_app_af_12/Components/Helpers/api_helper.dart';
 import 'package:chat_app_af_12/Components/Helpers/notification_helper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +85,11 @@ class _Notification_ScreenState extends State<Notification_Screen> {
                       .bigPictureNotification();
                 },
                 child: Text("Big Picture Notification")),
+            ElevatedButton(
+                onPressed: () {
+                  Api_Helper.api_helper.sendNotification();
+                },
+                child: Text("Send FCM Notification")),
           ],
         ),
       ),
